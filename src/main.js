@@ -3,7 +3,8 @@ import { drawArtwork } from './renderer.js';
 import { initGifExport } from './gif-export.js';
 import { artworks, prepareArtwork } from './artworks.js';
 const canvas=document.querySelector('#art'),ctx=canvas.getContext('2d',{alpha:false});
-const state={artwork:artworks[0],columns:180,speed:1,palette:'original',paused:matchMedia('(prefers-reduced-motion: reduce)').matches,time:0};
+const defaults={columns:180,speed:1};
+const state={artwork:artworks[0],...defaults,palette:'original',paused:matchMedia('(prefers-reduced-motion: reduce)').matches,time:0};
 let last=0,previousFrame=0,rows=78,dirty=false,selectionVersion=0,transitionStart=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 const previousCanvas=document.createElement('canvas'),previousContext=previousCanvas.getContext('2d');
@@ -77,8 +78,18 @@ function tick(now){
 const pause=document.querySelector('#pause');
 function syncPause(){pause.innerHTML=state.paused?'▶ <span>Resume animation</span>':'Ⅱ <span>Pause animation</span>';pause.setAttribute('aria-pressed',String(state.paused));document.querySelector('#play-state').textContent=state.paused?'Ⅱ   CANVAS PAUSED':'↻   INFINITE CANVAS';}
 pause.onclick=()=>{state.paused=!state.paused;syncPause();};
-document.querySelector('#density').oninput=e=>{state.columns=Number(e.target.value);document.querySelector('#density-value').value=state.columns;dirty=true;};
-document.querySelector('#speed').oninput=e=>{state.speed=Number(e.target.value)/100;document.querySelector('#speed-value').value=`${state.speed.toFixed(1)}×`;};
+const resetControls=document.querySelector('#reset-controls');
+function syncReset(){resetControls.hidden=state.columns===defaults.columns&&state.speed===defaults.speed;}
+resetControls.onclick=()=>{
+ state.columns=defaults.columns;state.speed=defaults.speed;
+ document.querySelector('#density').value=state.columns;
+ document.querySelector('#density-value').value=state.columns;
+ document.querySelector('#speed').value=state.speed*100;
+ document.querySelector('#speed-value').value=`${state.speed.toFixed(1)}×`;
+ dirty=true;syncReset();document.querySelector('#density').focus({preventScroll:true});
+};
+document.querySelector('#density').oninput=e=>{state.columns=Number(e.target.value);document.querySelector('#density-value').value=state.columns;dirty=true;syncReset();};
+document.querySelector('#speed').oninput=e=>{state.speed=Number(e.target.value)/100;document.querySelector('#speed-value').value=`${state.speed.toFixed(1)}×`;syncReset();};
 document.querySelectorAll('[data-palette]').forEach(button=>{button.setAttribute('aria-pressed',String(button.classList.contains('selected')));button.onclick=()=>{state.palette=button.dataset.palette;document.querySelectorAll('[data-palette]').forEach(b=>{b.classList.toggle('selected',b===button);b.setAttribute('aria-pressed',String(b===button));});render();};});
 document.querySelector('#snapshot').onclick=()=>{canvas.toBlob(blob=>{if(!blob)return;const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`vizal-${state.artwork.id}-${state.palette}.png`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});};
 document.querySelector('#fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.querySelector('.canvas-wrap').requestFullscreen();}catch{document.querySelector('.canvas-wrap').scrollIntoView({behavior:'smooth',block:'center'});}};

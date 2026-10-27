@@ -1,9 +1,9 @@
 import { drawArtwork } from './renderer.js';
-const presets=[{id:'small',name:'Small',width:320,height:194,note:'Quick shares'},{id:'medium',name:'Medium',width:640,height:388,note:'The sweet spot'},{id:'large',name:'Large',width:960,height:582,note:'More room for detail'}];
+const presets=[{id:'small',name:'Small',width:320,height:194,note:'Smaller file'},{id:'medium',name:'Medium',width:640,height:388,note:'Standard size'},{id:'large',name:'Large',width:960,height:582,note:'More room for detail'}];
 const sizeLabel=bytes=>bytes<1024*1024?`${(bytes/1024).toFixed(0)} KB`:`${(bytes/1024/1024).toFixed(2)} MB`;
 export function initGifExport(getState){
  const dialog=document.createElement('dialog');dialog.className='gif-dialog';dialog.setAttribute('aria-labelledby','gif-title');
- dialog.innerHTML=`<div class="gif-heading"><div><p class="eyebrow">A LITTLE ART TO TAKE WITH YOU</p><h2 id="gif-title">Make it a moving picture.</h2><p class="gif-subtitle">Choose your size. Preview the motion. Take it anywhere.</p></div><button class="gif-close" aria-label="Close GIF export">×</button></div><div class="gif-options"><label>Duration<select id="gif-duration"><option value="3">3 seconds</option><option value="6">6 seconds</option></select></label><label>Custom width<input id="gif-width" type="number" min="64" max="1600" step="1" value="800" required></label><span class="gif-times">×</span><label>Custom height<input id="gif-height" type="number" min="64" max="1600" step="1" value="485" required></label><span class="gif-units">px</span></div><p class="gif-fit">Artwork keeps its proportions. Extra space uses the canvas background.</p><div class="gif-grid" role="group" aria-label="GIF export size"></div><div class="gif-progress"><div></div></div><p class="gif-status" role="status" aria-live="polite"></p><div class="gif-actions"><p>12 FPS · Infinite replay<br><span>Created on your device. No uploads or fees.</span></p><button id="gif-download" disabled>Preparing previews…</button></div>`;
+ dialog.innerHTML=`<div class="gif-heading"><div><p class="eyebrow">GIF EXPORT</p><h2 id="gif-title">Export animation</h2><p class="gif-subtitle">Compare sizes and file sizes before downloading.</p></div><button class="gif-close" aria-label="Close GIF export">×</button></div><div class="gif-options"><label>Duration<select id="gif-duration"><option value="3">3 seconds</option><option value="6">6 seconds</option></select></label><label>Custom width<input id="gif-width" type="number" min="64" max="1600" step="1" value="800" required></label><span class="gif-times">×</span><label>Custom height<input id="gif-height" type="number" min="64" max="1600" step="1" value="485" required></label><span class="gif-units">px</span></div><p class="gif-fit">Artwork keeps its proportions. Extra space uses the canvas background.</p><div class="gif-grid" role="group" aria-label="GIF export size"></div><div class="gif-progress"><div></div></div><p class="gif-status" role="status" aria-live="polite"></p><div class="gif-actions"><p>12 FPS · Looping<br><span>Created on your device. No uploads or fees.</span></p><button id="gif-download" disabled>Preparing previews…</button></div>`;
  document.body.append(dialog);
  const grid=dialog.querySelector('.gif-grid'),status=dialog.querySelector('.gif-status'),download=dialog.querySelector('#gif-download');
  let worker=null,version=0,selected='medium',results=new Map(),snapshot,timer,items=[],busy=false;
@@ -20,7 +20,7 @@ export function initGifExport(getState){
   if(!width.checkValidity()||!height.checkValidity()){
    grid.replaceChildren();status.textContent='Enter whole-number dimensions between 64 and 1600 pixels.';download.disabled=true;download.textContent='Check custom dimensions';return;
   }
-  items=[...presets,{id:'custom',name:'Custom',width:Number(width.value),height:Number(height.value),note:'Your own canvas'}];
+  items=[...presets,{id:'custom',name:'Custom',width:Number(width.value),height:Number(height.value),note:'Custom dimensions'}];
   grid.replaceChildren(...items.map(card));selection(selected);dialog.querySelector('.gif-progress div').style.width='0%';
   const duration=Number(dialog.querySelector('#gif-duration').value),frames=duration*12;
   const surface=document.createElement('canvas'),ctx=surface.getContext('2d',{alpha:false});
@@ -62,7 +62,7 @@ export function initGifExport(getState){
  dialog.addEventListener('close',()=>{cleanup();grid.replaceChildren();});
  for(const input of dialog.querySelectorAll('input,select'))input.addEventListener('input',()=>{
   // Invalidate immediately: an old encode must never win over new dimensions.
-  cleanup();download.disabled=true;download.textContent='Updating previews…';status.textContent='Updating your canvas sizes…';
+  cleanup();download.disabled=true;download.textContent='Updating previews…';status.textContent='Updating dimensions…';
   if(input.tagName==='INPUT')selected='custom';timer=setTimeout(generate,450);
  });
  download.onclick=()=>{const result=results.get(selected),item=items.find(i=>i.id===selected);if(!result||busy)return;const a=document.createElement('a');a.href=result.url;a.download=`vizal-${snapshot.artwork.id}-${item.width}x${item.height}.gif`;a.click();};

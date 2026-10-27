@@ -1,3 +1,4 @@
+import { initWallpaperExport } from './wallpaper-export.js';
 import { initCollection } from './collection.js';
 import { drawArtwork } from './renderer.js';
 import { initGifExport } from './gif-export.js';
@@ -26,7 +27,7 @@ async function chooseArtwork(id){
  const artwork=artworks.find(a=>a.id===id);if(!artwork)return;
  const version=++selectionVersion,status=document.querySelector('#artwork-status'),wrap=document.querySelector('.canvas-wrap');
  if(id===state.artwork.id){status.textContent='';select.value=id;wrap.setAttribute('aria-busy','false');return;}
- status.textContent='Preparing your canvas…';wrap.setAttribute('aria-busy','true');
+ status.textContent='Loading painting…';wrap.setAttribute('aria-busy','true');
  try{
   const ready=await prepareArtwork(artwork);if(version!==selectionVersion)return;
   previousCanvas.width=canvas.width;previousCanvas.height=canvas.height;previousContext.drawImage(canvas,0,0);
@@ -37,9 +38,9 @@ async function chooseArtwork(id){
   document.querySelector('#artwork-artist').textContent=`${artwork.artist} · ${artwork.year}`;
   document.querySelector('#artwork-movement').textContent=artwork.movement.toUpperCase();
   document.querySelector('#artwork-study').textContent=`ASCII STUDY ${number}`;
-  document.querySelector('#canvas-number').textContent=`THE LIVING CANVAS / ${number}`;
+  document.querySelector('#canvas-number').textContent=`ARTWORK / ${number}`;
   document.querySelector('.footer-number').textContent=`${String(index+1).padStart(2,'0')} /`;
-  document.querySelector('#artwork-caption').textContent=artwork.caption.toUpperCase();
+  document.querySelector('#artwork-caption').textContent=artwork.title.toUpperCase();
   document.querySelector('.source').href=artwork.source;
   canvas.setAttribute('aria-label',`Animated colored ASCII rendition of ${artwork.title}`);
   collection.reveal(list.querySelector(`[data-artwork="${id}"]`));
@@ -76,7 +77,7 @@ function tick(now){
  requestAnimationFrame(tick);
 }
 const pause=document.querySelector('#pause');
-function syncPause(){pause.innerHTML=state.paused?'▶ <span>Resume animation</span>':'Ⅱ <span>Pause animation</span>';pause.setAttribute('aria-pressed',String(state.paused));document.querySelector('#play-state').textContent=state.paused?'Ⅱ   CANVAS PAUSED':'↻   INFINITE CANVAS';}
+function syncPause(){pause.innerHTML=state.paused?'▶ <span>Resume animation</span>':'Ⅱ <span>Pause animation</span>';pause.setAttribute('aria-pressed',String(state.paused));document.querySelector('#play-state').textContent=state.paused?'Ⅱ   ANIMATION PAUSED':'↻   ANIMATION PLAYING';}
 pause.onclick=()=>{state.paused=!state.paused;syncPause();};
 const resetControls=document.querySelector('#reset-controls');
 function syncReset(){resetControls.hidden=state.columns===defaults.columns&&state.speed===defaults.speed;}
@@ -98,3 +99,5 @@ document.addEventListener('visibilitychange',()=>{last=0;});
 resize();syncPause();requestAnimationFrame(tick);
 
 initGifExport(()=>({...state}));
+
+initWallpaperExport(()=>({...state}));

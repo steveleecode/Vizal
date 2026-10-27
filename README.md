@@ -1,6 +1,6 @@
 # Vizal
 
-**Classic art. Living characters.** Built by [Stephen Lee](https://github.com/steveleecode).
+An animated ASCII art studio. Built by [Stephen Lee](https://github.com/steveleecode).
 
 A browser-based, animated ASCII art studio. The collection includes 20 selectable artworks. Starry Night is a procedural interpretation of Vincent van Gogh's **The Starry Night**, inspired by the supplied terminal-animation reference. All painting marks are ASCII glyphs drawn on a canvas. The 19 additional works use local Wikimedia source images, converted to animated ASCII in the browser. Source references are in `public/artworks/sources.json`. Portraits retain their original proportions. This is an approximation of the reference's visual style, not a pixel-exact reconstruction.
 
@@ -34,7 +34,7 @@ Reduced-motion preferences start the artwork paused. All rendering happens local
 
 `src/artworks.js` exports an `artworks` registry. Each artwork supplies metadata and a pure `sample(x, y, time, column, row)` function returning `{ glyph, color: [r, g, b] }`. Coordinates are normalized to 0–1 and time is in seconds. Register a sampler, or add an image artwork with its metadata and a local asset. Collection cards, the dropdown, and title metadata update from the registry automatically. The renderer, palette controls, and exports are independent of the artwork sampler.
 
-`src/main.js` owns the canvas and animation loop; `src/style.css` owns the responsive studio interface. Rendering targets 30 fps, decodes image assets once, coalesces density changes, and skips hidden-tab rendering. Artwork switches crossfade and respect reduced-motion preferences. Exports support still PNGs and animated GIFs; MP4 export and arbitrary image uploads are future extensions.
+`src/main.js` owns the canvas and animation loop; `src/style.css` owns the responsive studio interface. Rendering targets 30 fps, decodes image assets once, coalesces density changes, and skips hidden-tab rendering. Artwork switches crossfade and respect reduced-motion preferences. Exports support still PNGs and animated GIFs; Wallpaper MP4 export is available; arbitrary image uploads remain a future extension.
 
 ## Animated GIF export
 
@@ -97,3 +97,11 @@ The site processes images and exports locally. Google Fonts is the only external
 The collection uses historical artworks reproduced from Wikimedia-hosted files. Per-artwork reference pages and exact download URLs are preserved in [`public/artworks/sources.json`](public/artworks/sources.json). Follow those references for authorship and reproduction details before repurposing assets. GIF encoding uses [gifenc](https://github.com/mattdesl/gifenc), licensed under MIT. The Vizal logo was supplied by Stephen Lee.
 
 No license for the original Vizal application code has been selected; dependency and artwork notices do not grant a separate license to the application.
+
+## macOS wallpaper export
+
+Choose **Wallpaper** below the canvas for a static PNG or an animated H.264 MP4. Presets include Full HD, 16:10, MacBook Air 13-inch, MacBook Pro 14/16-inch, and 4K. Choose Fit to preserve the whole canvas or Fill to crop it to the display. The current artwork, palette, density, and speed are captured when the dialog opens.
+
+Static PNGs can be added in **System Settings → Wallpaper → Add Photo**. The web app cannot change your desktop settings. Custom MP4s require a live-wallpaper player, such as the free [Aerial](https://aerialscreensaver.github.io/), which supports importing your own MP4/MOV files; consult its current macOS requirements and enable its wallpaper mode. A downloaded MP4 is not an Apple dynamic HEIC wallpaper.
+
+Animated exports are silent, 24 fps, and 6 or 12 seconds, easing forward and back for continuous replay. The popup previews the completed video before download. Encoding runs locally in a worker with the MIT-licensed [Mediabunny](https://mediabunny.dev/) library and browser video codecs; unsupported codecs/resolutions produce a message suggesting a smaller preset or another browser. Closing the popup or cancelling terminates the worker. Large display sizes take more processing time. Density controls the amount of character detail, independently of output pixel dimensions.

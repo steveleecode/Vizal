@@ -63,30 +63,29 @@ export const starryNight = {
  }
 };
 starryNight.movement='Post-impressionism';
-starryNight.caption='A night that never stands still';
 starryNight.source='https://en.wikipedia.org/wiki/The_Starry_Night';
 starryNight.image='/artworks/starry-night.jpg';
-const imageArtwork=(id,title,artist,year,movement,page,motion,caption)=>({id,title,artist,year,movement,source:'https://en.wikipedia.org/wiki/'+page,image:'/artworks/'+id+'.jpg',motion,caption});
+const imageArtwork=(id,title,artist,year,movement,page,motion)=>({id,title,artist,year,movement,source:'https://en.wikipedia.org/wiki/'+page,image:'/artworks/'+id+'.jpg',motion});
 export const artworks = [starryNight,
- imageArtwork('great-wave','The Great Wave','Katsushika Hokusai','c. 1831','Ukiyo-e','The_Great_Wave_off_Kanagawa','wave','An ocean written in characters'),
- imageArtwork('mona-lisa','Mona Lisa','Leonardo da Vinci','c. 1503–1519','High Renaissance','Mona_Lisa','portrait','An enigmatic smile, reimagined'),
- imageArtwork('pearl-earring','Girl with a Pearl Earring','Johannes Vermeer','c. 1665','Dutch Golden Age','Girl_with_a_Pearl_Earring','portrait','A quiet glance. A living portrait.'),
- imageArtwork('the-scream','The Scream','Edvard Munch',1893,'Expressionism','The_Scream','wave','An echo across an endless sky'),
- imageArtwork('the-kiss','The Kiss','Gustav Klimt','1907–1908','Art Nouveau','The_Kiss_(Klimt)','shimmer','A thousand flecks of gold'),
- imageArtwork('water-lilies','Water Lilies · The Clouds','Claude Monet','1914–1926','Impressionism','Water_Lilies_(Monet_series)','water','Where light becomes water'),
- imageArtwork('sunflowers','Sunflowers','Vincent van Gogh',1888,'Post-impressionism','Sunflowers_(Van_Gogh_series)','shimmer','A little sunshine in every character'),
- imageArtwork('bedroom','Bedroom in Arles','Vincent van Gogh',1888,'Post-impressionism','Bedroom_in_Arles','portrait','A quiet room with a life of its own'),
- imageArtwork('cafe-terrace','Café Terrace at Night','Vincent van Gogh',1888,'Post-impressionism','Caf%C3%A9_Terrace_at_Night','shimmer','An evening under a golden awning'),
- imageArtwork('birth-of-venus','The Birth of Venus','Sandro Botticelli','c. 1484–1486','Early Renaissance','The_Birth_of_Venus','water','A breeze from another century'),
- imageArtwork('creation-of-adam','The Creation of Adam','Michelangelo','c. 1511','High Renaissance','The_Creation_of_Adam','portrait','The space between two fingertips'),
- imageArtwork('night-watch','The Night Watch','Rembrandt van Rijn',1642,'Dutch Golden Age','The_Night_Watch','shimmer','Out of the shadows, into the light'),
- imageArtwork('las-meninas','Las Meninas','Diego Velázquez',1656,'Baroque','Las_Meninas','portrait','A moment caught looking back'),
- imageArtwork('sunday-afternoon','A Sunday on La Grande Jatte','Georges Seurat','1884–1886','Neo-impressionism','A_Sunday_Afternoon_on_the_Island_of_La_Grande_Jatte','shimmer','From a thousand dots to a thousand glyphs'),
- imageArtwork('impression-sunrise','Impression, Sunrise','Claude Monet',1872,'Impressionism','Impression,_Sunrise','water','The first light, softly moving'),
- imageArtwork('wanderer','Wanderer Above the Sea of Fog','Caspar David Friedrich','c. 1818','Romanticism','Wanderer_above_the_Sea_of_Fog','water','At the edge of an endless horizon'),
- imageArtwork('last-supper','The Last Supper','Leonardo da Vinci','1495–1498','High Renaissance','The_Last_Supper_(Leonardo)','portrait','A timeless gathering, rendered anew'),
- imageArtwork('hay-wain','The Hay Wain','John Constable',1821,'Romanticism','The_Hay_Wain','water','A slow afternoon by the river'),
- imageArtwork('flaming-june','Flaming June','Frederic Leighton',1895,'Academic art','Flaming_June','shimmer','A dream wrapped in summer light')
+ imageArtwork('great-wave','The Great Wave','Katsushika Hokusai','c. 1831','Ukiyo-e','The_Great_Wave_off_Kanagawa','wave'),
+ imageArtwork('mona-lisa','Mona Lisa','Leonardo da Vinci','c. 1503–1519','High Renaissance','Mona_Lisa','portrait'),
+ imageArtwork('pearl-earring','Girl with a Pearl Earring','Johannes Vermeer','c. 1665','Dutch Golden Age','Girl_with_a_Pearl_Earring','portrait'),
+ imageArtwork('the-scream','The Scream','Edvard Munch',1893,'Expressionism','The_Scream','wave'),
+ imageArtwork('the-kiss','The Kiss','Gustav Klimt','1907–1908','Art Nouveau','The_Kiss_(Klimt)','shimmer'),
+ imageArtwork('water-lilies','Water Lilies · The Clouds','Claude Monet','1914–1926','Impressionism','Water_Lilies_(Monet_series)','water'),
+ imageArtwork('sunflowers','Sunflowers','Vincent van Gogh',1888,'Post-impressionism','Sunflowers_(Van_Gogh_series)','shimmer'),
+ imageArtwork('bedroom','Bedroom in Arles','Vincent van Gogh',1888,'Post-impressionism','Bedroom_in_Arles','portrait'),
+ imageArtwork('cafe-terrace','Café Terrace at Night','Vincent van Gogh',1888,'Post-impressionism','Caf%C3%A9_Terrace_at_Night','shimmer'),
+ imageArtwork('birth-of-venus','The Birth of Venus','Sandro Botticelli','c. 1484–1486','Early Renaissance','The_Birth_of_Venus','water'),
+ imageArtwork('creation-of-adam','The Creation of Adam','Michelangelo','c. 1511','High Renaissance','The_Creation_of_Adam','portrait'),
+ imageArtwork('night-watch','The Night Watch','Rembrandt van Rijn',1642,'Dutch Golden Age','The_Night_Watch','shimmer'),
+ imageArtwork('las-meninas','Las Meninas','Diego Velázquez',1656,'Baroque','Las_Meninas','portrait'),
+ imageArtwork('sunday-afternoon','A Sunday on La Grande Jatte','Georges Seurat','1884–1886','Neo-impressionism','A_Sunday_Afternoon_on_the_Island_of_La_Grande_Jatte','shimmer'),
+ imageArtwork('impression-sunrise','Impression, Sunrise','Claude Monet',1872,'Impressionism','Impression,_Sunrise','water'),
+ imageArtwork('wanderer','Wanderer Above the Sea of Fog','Caspar David Friedrich','c. 1818','Romanticism','Wanderer_above_the_Sea_of_Fog','water'),
+ imageArtwork('last-supper','The Last Supper','Leonardo da Vinci','1495–1498','High Renaissance','The_Last_Supper_(Leonardo)','portrait'),
+ imageArtwork('hay-wain','The Hay Wain','John Constable',1821,'Romanticism','The_Hay_Wain','water'),
+ imageArtwork('flaming-june','Flaming June','Frederic Leighton',1895,'Academic art','Flaming_June','shimmer')
 ];
 // Decode once; all frames sample local, downsampled pixel data.
 const prepared=new Map();

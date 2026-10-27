@@ -12,7 +12,8 @@
     "vite": "^7.1.0"
   },
   "dependencies": {
-    "gifenc": "^1.0.3"
+    "gifenc": "^1.0.3",
+    "mediabunny": "^1.62.1"
   },
   "description": "A browser-based animated ASCII art studio with 20 classic artworks and local GIF export.",
   "author": "Stephen Lee (https://github.com/steveleecode)",
